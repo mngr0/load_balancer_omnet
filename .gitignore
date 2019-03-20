@@ -1,0 +1,4 @@
+results/*
+*.sca
+*.vci
+*.vec
