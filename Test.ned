@@ -47,7 +47,7 @@ network Test
         sink1: Sink {
             @display("p=445,184");
         }
-        router: Router {
+        router: RouterWS {
             @display("p=213,128");
         }
     connections:

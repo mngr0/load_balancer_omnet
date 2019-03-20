@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for load_balancer_omnet
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -O out -I.
+#  opp_makemake -f --deep -O out -KQUEUEINGLIB_PROJ=../queueinglib -DQUEUEING_IMPORT -I. -I$$\(QUEUEINGLIB_PROJ\) -L$$\(QUEUEINGLIB_PROJ\) -lqueueinglib$$\(D\)
 #
 
 # Name of target to be created (-o option)
@@ -16,13 +16,13 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(QTENV_LIBS) $(CMDENV_LI
 #USERIF_LIBS = $(QTENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I.
+INCLUDE_PATH = -I. -I$(QUEUEINGLIB_PROJ)
 
 # Additional object and library files to link with
 EXTRA_OBJS =
 
 # Additional libraries (-L, -l options)
-LIBS =
+LIBS = $(LDFLAG_LIBPATH)$(QUEUEINGLIB_PROJ)  -lqueueinglib$(D)
 
 # Output directory
 PROJECT_OUTPUT_DIR = out
@@ -30,34 +30,16 @@ PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
-OBJS = \
-    $O/queueinglib/Allocate.o \
-    $O/queueinglib/Classifier.o \
-    $O/queueinglib/Clone.o \
-    $O/queueinglib/Deallocate.o \
-    $O/queueinglib/Delay.o \
-    $O/queueinglib/Fork.o \
-    $O/queueinglib/Job.o \
-    $O/queueinglib/JobList.o \
-    $O/queueinglib/Join.o \
-    $O/queueinglib/Merge.o \
-    $O/queueinglib/PassiveQueue.o \
-    $O/queueinglib/Queue.o \
-    $O/queueinglib/ResourceBasedQueue.o \
-    $O/queueinglib/ResourcePool.o \
-    $O/queueinglib/Router.o \
-    $O/queueinglib/SelectionStrategies.o \
-    $O/queueinglib/Server.o \
-    $O/queueinglib/Sink.o \
-    $O/queueinglib/Source.o \
-    $O/queueinglib/Job_m.o
+OBJS = $O/RouterWS.o
 
 # Message files
-MSGFILES = \
-    queueinglib/Job.msg
+MSGFILES =
 
 # SM files
 SMFILES =
+
+# Other makefile variables (-K)
+QUEUEINGLIB_PROJ=../queueinglib
 
 #------------------------------------------------------------------------------
 
@@ -81,8 +63,11 @@ include $(CONFIGFILE)
 
 # Simulation kernel and user interface libraries
 OMNETPP_LIBS = $(OPPMAIN_LIB) $(USERIF_LIBS) $(KERNEL_LIBS) $(SYS_LIBS)
+ifneq ($(TOOLCHAIN_NAME),clangc2)
+LIBS += -Wl,-rpath,$(abspath $(QUEUEINGLIB_PROJ))
+endif
 
-COPTS = $(CFLAGS) $(IMPORT_DEFINES)  $(INCLUDE_PATH) -I$(OMNETPP_INCL_DIR)
+COPTS = $(CFLAGS) $(IMPORT_DEFINES) -DQUEUEING_IMPORT $(INCLUDE_PATH) -I$(OMNETPP_INCL_DIR)
 MSGCOPTS = $(INCLUDE_PATH)
 SMCOPTS =
 
