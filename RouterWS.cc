@@ -23,8 +23,10 @@ Define_Module(RouterWS);
 void RouterWS::initialize()
 {
     // TODO - Generated method body
-    Router::initialize();
-    selectionStrategy = queueing::SelectionStrategy::create("random", this, false);
+    //Router::initialize();
+    //selectionStrategy = queueing::SelectionStrategy::create("random", this, false);
+    //selectionStrategy = queueing::SelectionStrategy::create("roundRobin", this, false);
+    selectionStrategy = queueing::SelectionStrategy::create("shortestQueue", this, false);
     if (!selectionStrategy)
         throw cRuntimeError("invalid selection strategy");
 }

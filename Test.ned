@@ -16,7 +16,10 @@
 package test;
 
 import ned.IUnidirectionalChannel;
+import org.omnetpp.queueing.Allocate;
+import org.omnetpp.queueing.Deallocate;
 import org.omnetpp.queueing.Fork;
+import org.omnetpp.queueing.ResourcePool;
 import org.omnetpp.queueing.Router;
 import org.omnetpp.queueing.Source;
 import org.omnetpp.queueing.Queue;
@@ -30,30 +33,38 @@ import org.omnetpp.queueing.Delay;
 //
 network Test
 {
-    @display("bgb=707,261");
+    @display("bgb=707,279");
     submodules:
         source: Source {
             @display("p=51,128");
         }
-        server: Queue {
-            @display("p=289,68");
-        }
         sink: Sink {
-            @display("p=445,68");
-        }
-        queue: Queue {
-            @display("p=289,184");
+            @display("p=613,62");
         }
         sink1: Sink {
-            @display("p=445,184");
+            @display("p=589,184");
         }
-        router: RouterWS {
-            @display("p=213,128");
+        router_ws: RouterWS {
+            @display("p=170,128");
+        }
+        server1: Server {
+            @display("p=384,184");
+        }
+        server2: Server {
+            @display("p=391,62");
+        }
+        passiveQueue: PassiveQueue {
+            @display("p=308,185");
+        }
+        passiveQueue1: PassiveQueue {
+            @display("p=304,51");
         }
     connections:
-        server.out --> sink.in++;
-        queue.out --> sink1.in++;
-        source.out --> router.in++;
-        router.out++ --> server.in++;
-        router.out++ --> queue.in++;
+        source.out --> router_ws.in++;
+        router_ws.out++ --> passiveQueue1.in++;
+        passiveQueue1.out++ --> server2.in++;
+        server2.out --> sink.in++;
+        router_ws.out++ --> passiveQueue.in++;
+        passiveQueue.out++ --> server1.in++;
+        server1.out --> sink1.in++;
 }
