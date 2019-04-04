@@ -24,9 +24,9 @@ void RouterWS::initialize()
 {
     // TODO - Generated method body
     //Router::initialize();
-    //selectionStrategy = queueing::SelectionStrategy::create("random", this, false);
+    selectionStrategy = queueing::SelectionStrategy::create("random", this, false);
     //selectionStrategy = queueing::SelectionStrategy::create("roundRobin", this, false);
-    selectionStrategy = queueing::SelectionStrategy::create("shortestQueue", this, false);
+    //selectionStrategy = queueing::SelectionStrategy::create("shortestQueue", this, false);
     if (!selectionStrategy)
         throw cRuntimeError("invalid selection strategy");
 }
@@ -39,6 +39,7 @@ void RouterWS::handleMessage(cMessage *msg)
     int outGateIndex = -1;  // by default we drop the message
     outGateIndex = selectionStrategy->select();
     // send out if the index is legal
+    EV << "sending job to queue " << outGateIndex << endl;
     if (outGateIndex < 0 || outGateIndex >= gateSize("out"))
        throw cRuntimeError("Invalid output gate selected during routing");
     send(msg, "out", outGateIndex);
