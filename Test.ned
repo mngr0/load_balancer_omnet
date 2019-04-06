@@ -31,12 +31,13 @@ import org.omnetpp.queueing.Delay;
 //
 // TODO Generated network
 //
-network Test
+network load_balancer_omnet
 {
     @display("bgb=707,279");
     submodules:
         source: Source {
             @display("p=51,128");
+            interArrivalTime = 3s;
         }
         sink: Sink {
             @display("p=613,62");
@@ -49,9 +50,11 @@ network Test
         }
         server1: Server {
             @display("p=384,184");
+            serviceTime = 3s;
         }
         server2: Server {
             @display("p=391,62");
+            serviceTime = 3s;
         }
         passiveQueue: PassiveQueue {
             @display("p=308,185");
