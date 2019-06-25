@@ -23,7 +23,7 @@ simple RouterWS
     parameters:
         @group(Queueing);
         @display("i=block/routing");
-        string routingAlgorithm @enum("random","roundRobin","shortestQueue","minDelay") = default("random");
+        string routingAlgorithmWS @enum("random","roundRobin","shortestQueue") = default("random");
         volatile int randomGateIndex = default(intuniform(0, sizeof(out)-1));    // the destination gate in case of random routing
     gates:
         input in[];

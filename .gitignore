@@ -2,3 +2,4 @@ results/*
 *.sca
 *.vci
 *.vec
+/.computed/

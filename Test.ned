@@ -31,33 +31,36 @@ import org.omnetpp.queueing.Delay;
 //
 // TODO Generated network
 //
-network Test
+network load_balancer_omnet
 {
     @display("bgb=707,279");
+    int queueSize = 6;
     submodules:
         source: Source {
             @display("p=51,128");
         }
         sink: Sink {
-            @display("p=613,62");
+            @display("p=550,62");
         }
         sink1: Sink {
-            @display("p=589,184");
+            @display("p=550,185");
         }
         router_ws: RouterWS {
             @display("p=170,128");
         }
         server1: Server {
-            @display("p=384,184");
+            @display("p=430,185");
         }
         server2: Server {
-            @display("p=391,62");
+            @display("p=430,62");
         }
         passiveQueue: PassiveQueue {
             @display("p=308,185");
+           // capacity = queueSize;
         }
         passiveQueue1: PassiveQueue {
-            @display("p=304,51");
+            @display("p=308,62");
+           // capacity = queueSize;
         }
     connections:
         source.out --> router_ws.in++;

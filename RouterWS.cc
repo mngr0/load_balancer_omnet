@@ -24,7 +24,7 @@ void RouterWS::initialize()
 {
     // TODO - Generated method body
     //Router::initialize();
-    selectionStrategy = queueing::SelectionStrategy::create("random", this, false);
+    selectionStrategy = queueing::SelectionStrategy::create(par("routingAlgorithmWS"), this, false);
     //selectionStrategy = queueing::SelectionStrategy::create("roundRobin", this, false);
     //selectionStrategy = queueing::SelectionStrategy::create("shortestQueue", this, false);
     if (!selectionStrategy)

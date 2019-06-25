@@ -1,12 +1,12 @@
 #
-# OMNeT++/OMNEST Makefile for test
+# OMNeT++/OMNEST Makefile for load_balancer_omnet
 #
 # This file was generated with the command:
 #  opp_makemake -f --deep -O out -KQUEUEINGLIB_PROJ=../queueinglib -DQUEUEING_IMPORT -I. -I$$\(QUEUEINGLIB_PROJ\) -L$$\(QUEUEINGLIB_PROJ\) -lqueueinglib$$\(D\)
 #
 
 # Name of target to be created (-o option)
-TARGET = test$(D)$(EXE_SUFFIX)
+TARGET = load_balancer_omnet$(D)$(EXE_SUFFIX)
 TARGET_DIR = .
 
 # User interface (uncomment one) (-u option)
