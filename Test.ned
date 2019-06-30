@@ -34,7 +34,6 @@ import org.omnetpp.queueing.Delay;
 network load_balancer_omnet
 {
     @display("bgb=707,279");
-    int queueSize = 6;
     submodules:
         source: Source {
             @display("p=51,128");

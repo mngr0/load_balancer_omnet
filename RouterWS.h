@@ -18,7 +18,7 @@
 
 #include <omnetpp.h>
 #include "Router.h"
-#include "SelectionStrategies.h"
+#include "SelectionStrategiesInOut.h"
 
 using namespace omnetpp;
 
@@ -28,7 +28,7 @@ using namespace omnetpp;
 class RouterWS : public queueing::Router
 {
   private:
-    queueing::SelectionStrategy *selectionStrategy;
+    SelectionStrategyInOut *selectionStrategy;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

@@ -16,17 +16,14 @@
 #include <omnetpp.h>
 
 #include "RouterWS.h"
-#include "SelectionStrategies.h"
+#include "SelectionStrategiesInOut.h"
 
 Define_Module(RouterWS);
 
 void RouterWS::initialize()
 {
-    // TODO - Generated method body
-    //Router::initialize();
-    selectionStrategy = queueing::SelectionStrategy::create(par("routingAlgorithmWS"), this, false);
-    //selectionStrategy = queueing::SelectionStrategy::create("roundRobin", this, false);
-    //selectionStrategy = queueing::SelectionStrategy::create("shortestQueue", this, false);
+
+    selectionStrategy = SelectionStrategyInOut::create(par("routingAlgorithmWS"), this, false);
     if (!selectionStrategy)
         throw cRuntimeError("invalid selection strategy");
 }
@@ -34,8 +31,7 @@ void RouterWS::initialize()
 void RouterWS::handleMessage(cMessage *msg)
 {
 
-    //Router::handleMessage(msg);
-    // TODO - Generated method body
+
     int outGateIndex = -1;  // by default we drop the message
     outGateIndex = selectionStrategy->select();
     // send out if the index is legal
