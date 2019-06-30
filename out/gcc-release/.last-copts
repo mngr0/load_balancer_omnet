@@ -1,0 +1,1 @@
+-O3 -DNDEBUG=1 -MMD -MP -MF .d  -fPIC  -fno-stack-protector -DHAVE_SWAPCONTEXT -DXMLPARSER=none -DPREFER_QTENV -DWITH_QTENV -DWITH_PARSIM -DWITH_NETBUILDER  -DQUEUEING_IMPORT -I. -I../queueinglib -I/home/marco/Documents/omnetpp-5.5.1/include

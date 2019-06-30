@@ -38,7 +38,7 @@ network load_balancer_omnet
     submodules:
         source: Source {
             @display("p=51,128");
-            interArrivalTime = 3s;
+
         }
         sink: Sink {
             @display("p=550,62");
@@ -50,19 +50,12 @@ network load_balancer_omnet
             @display("p=170,128");
         }
         server1: Server {
-<<<<<<< HEAD
+
             @display("p=430,185");
         }
         server2: Server {
             @display("p=430,62");
-=======
-            @display("p=384,184");
-            serviceTime = 3s;
-        }
-        server2: Server {
-            @display("p=391,62");
-            serviceTime = 3s;
->>>>>>> 02c325b1b845199412c69729bce8764d0f767898
+
         }
         passiveQueue: PassiveQueue {
             @display("p=308,185");
