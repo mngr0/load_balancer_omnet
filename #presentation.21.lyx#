@@ -1,0 +1,397 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Web Server Load Balancing - Simulazione di sistemi
+\end_layout
+
+\begin_layout Section
+Introduzione
+\end_layout
+
+\begin_layout Standard
+Durante gli ultimi anni i servizi basati sul Web, in particolare l' E-Commerce,
+ sono diventati sempre più popolari.
+ In molte occasioni questo porta a tempi di risposta inaccettabili o disservizi,
+ causando la perdita di potenziali clienti.
+\end_layout
+
+\begin_layout Standard
+Per complicare ulteriormente la faccenda, il traffico varia durante la giornata,
+ la settimana, e a seconda del mese dell' anno.
+ Queste fluttuazioni stagionali, o comunque periodiche, rendono molto difficile
+ dimensionare un server adeguatamente.
+ Sono state.
+ Sono state provate varie soluzioni per questo problema, come per esempio
+ potenziare i server, aggiungere delle cache, o esternalizzare la gestione
+ dei server (Derfler and Freed, 2000).
+ Queste soluzioni hanno comunque i loro problemi.
+ Per esempio un server più performante può funzionare per un certo tempo,
+ ma non è scalabile e può causare interruzioni per aggiornamenti e manutenzioni.
+ Inoltre, la capacità del server viene pianificata per il picco di carico,
+ ed è sprecata durante le ore fuori dal picco.
+ Una strategia e
+\end_layout
+
+\begin_layout Standard
+A realistic and effective way is to use multiple Web servers also called
+ ‘‘clustered Web servers’’ or ‘‘server farm’’ and balance the load among
+ these servers.
+ In order to address the network latency delays caused over greater distances,
+ many organizations are also deploying multiple (distributed) Web servers
+ in disparate cities, states, and even countries.
+ User service requests are routed to a server based on some routing algorithms.
+ Of course, the system performance depends critically on these routing algorithm
+s.
+ This method of load manage- ment has been shown to improve QoS in practice
+ and is widely used (Derfler and Freed, 2000).
+ One big advan- tage of using multiple servers is that one need not develop
+ very accurate plans for the server capacity; one can add to the existing
+ capacity in an ad-hoc fashion by either buying new servers or by employing
+ unused capacity from elsewhere.
+\end_layout
+
+\begin_layout Standard
+In this paper, we develop a queueing model to quantitatively analyze the
+ performance characteristics of dif- ferent routing policies for a clustered
+ Web servers.
+ The main practical contribution of this paper is that it pro- vides network
+ administrators guidelines on how to configure the server farm to achieve
+ maximum efficiency.
+ The main theoretical contributions of this paper are twofold.
+ First, we obtain performance measures (e.g., joint probability distribution,
+ average waiting time, rejection rate) for the shortest-queue load balancing
+ with finite buffer capacity and compare them with the random routing and
+ the round-robin policy.
+ Second, we extend our analysis to the distributed load balancing which
+ could re-route traffic from heavy-loaded regions to light-loaded ones.
+ We consider the proximity which is measured by the network delay due to
+ re-routing, and find the optimal routing policy that minimizes the average
+ response time.
+\end_layout
+
+\begin_layout Section
+Modello 
+\end_layout
+
+\begin_layout Standard
+Sono proposti due diversi modelli per simulare diverse politiche.
+ 
+\end_layout
+
+\begin_layout Standard
+Nel primo è presente un singolo load balancer, che sceglie a quale server
+ inviare la richiesta in base a una politica che può essere:
+\end_layout
+
+\begin_layout Itemize
+Random dove il server di destinazione viene scelto in maniera casuale,
+\end_layout
+
+\begin_layout Itemize
+Round-Robin dove le richieste vengono inviate alternativamente ai due server,
+ o
+\end_layout
+
+\begin_layout Itemize
+Shortest Queue dove la richiesta viene inviata sempre verso il server con
+ meno richieste in coda.
+\end_layout
+
+\begin_layout Standard
+Si suppone che il load balancer conosce esattamente la lunghezza delle code
+ in tempo reale, e che l' instradamento non richieda tempo.
+\end_layout
+
+\begin_layout Standard
+Nel secondo vengono modellate due sorgenti di richieste, idealmente in due
+ regioni geografiche distanti tra loro, il load balancer manda le richieste
+ verso il server nella sua zona, a meno che il server locale non abbia in
+ coda δ richieste in più del server remoto.
+ La distanza tra le due regioni geografiche rimane solo ideologica, perchè
+ 
+\end_layout
+
+\begin_layout Subsection
+Load balancer centralizzato
+\end_layout
+
+\begin_layout Standard
+Il modello descritto è il seguente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename /home/marco/Pictures/simulazione/modelcentr.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si può notare il flusso di utenti che arrivano con cadenza λ, i quali possono
+ venire indirizzati verso una delle due code (con capacità K) e poi a un
+ server con tempo di servizio μ.
+ La coda rifiuta le richieste in arrivo, in caso sia piena.
+\end_layout
+
+\begin_layout Standard
+Questo è il modello Omnet++ sviluppato per la simulazione:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename /home/marco/Pictures/simulazione/omnetcentr.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+L' unico elemento da modificare è stato il router, che di base permetteva
+ solo di utilizzare SelectionStrategies solo sulla scelta di quale input
+ prendere, mentre è necessario poter scegliere l' output per i job.
+ 
+\end_layout
+
+\begin_layout Standard
+Nei parametri richiesti per la simulazione (disponibili in appendice) si
+ hanno due tempi di servizio diversi per i due server
+\end_layout
+
+\begin_layout Subsubsection
+Dati raccolti
+\end_layout
+
+\begin_layout Standard
+Da questa simulazione sono stati raccolti i dati relativi a:
+\end_layout
+
+\begin_layout Itemize
+Tempo di vita dei job che arrivano alle sink, che indica il tempo speso
+ nel sistema (speso in coda e all' interno del server)
+\end_layout
+
+\begin_layout Itemize
+Lunghezza della coda
+\end_layout
+
+\begin_layout Itemize
+Quantità utenti rifiutati dalle code
+\end_layout
+
+\begin_layout Subsection
+Load balancer distribuito
+\end_layout
+
+\begin_layout Standard
+Il modello descritto è il seguente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename /home/marco/Pictures/simulazione/modelDistr.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si possono notare i due flussi di utenti che arrivano ai due diversi load
+ balancer.
+ Le due code hanno capacità K, e i server tempo di servizio μ.
+ Le code rifiutano i job in arrivo nel caso siano piene.
+\end_layout
+
+\begin_layout Standard
+Questo è il modello Omnet++ sviluppato per la simulazione
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename /home/marco/Pictures/simulazione/omnetdistr.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+L' unico elemento da modificare è stato il router, che è stato modificato
+ per accettare solo due uscite, e dotato di una particolare politica che
+ manda sulla seconda solo se la prima coda è più lunga della prima di un
+ certo δ.
+\end_layout
+
+\begin_layout Standard
+Nei parametri richiesti per la simulazione (disponibili in appendice) si
+ hanno due tempi di servizio diversi per i due server
+\end_layout
+
+\begin_layout Subsubsection
+Dati raccolti
+\end_layout
+
+\begin_layout Standard
+Da questa simulazione sono stati raccolti i dati relativi a:
+\end_layout
+
+\begin_layout Itemize
+Tempo di vita dei job che arrivano alle sink, che indica il tempo speso
+ nel sistema (speso in coda e all' interno del server)
+\end_layout
+
+\begin_layout Itemize
+Lunghezza della coda
+\end_layout
+
+\begin_layout Itemize
+Quantità utenti rifiutati dalle code
+\end_layout
+
+\begin_layout Section
+Analisi dei dati
+\end_layout
+
+\begin_layout Standard
+I dati sono stati prodotti lanciando l' eseguibile prodotto da omnet++ ed
+ estratti utilizzando scavetool.
+ La simulazione viene ripetuta #runs volte
+\end_layout
+
+\begin_layout Subsection
+Analisi richiesta
+\end_layout
+
+\begin_layout Standard
+È stato richiesto di calcolare per ogni run:
+\end_layout
+
+\begin_layout Itemize
+lunghezza media della coda
+\end_layout
+
+\begin_layout Itemize
+Tempo medio di permanenza in coda
+\end_layout
+
+\begin_layout Standard
+È stato richiesto di calcolare per ogni configurazione:
+\end_layout
+
+\begin_layout Itemize
+Throughput
+\end_layout
+
+\begin_layout Itemize
+Drop rate
+\end_layout
+
+\begin_layout Standard
+La differenza tra i due è come vengono raccolti i dati: nel primo caso la
+ simulazione converge verso un valore medio col passare del tempo; nel secondo
+ caso la simulazione produce un valore, che verrà mediato con altri valori
+ prodotti da altre run.
+\end_layout
+
+\begin_layout Subsection
+Transiente
+\end_layout
+
+\begin_layout Subsection
+Intervalli di confidenza
+\end_layout
+
+\begin_layout Subsection
+Stima puntuale
+\end_layout
+
+\begin_layout Subsection
+Grafici prodotti
+\end_layout
+
+\begin_layout Section
+Conclusione
+\end_layout
+
+\begin_layout Section
+Appendice
+\end_layout
+
+\begin_layout Subsection
+Parametri della simulazione
+\end_layout
+
+\end_body
+\end_document
